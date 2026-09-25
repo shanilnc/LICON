@@ -1,0 +1,13 @@
+# Place inside your TLS-enabled server block for each frontend.
+# Customer root: /srv/licon/frontend/dist
+# Admin root: /srv/licon/admin/dist
+location / {
+  try_files $uri $uri/ /index.html;
+}
+location /assets/ {
+  expires 1y;
+  add_header Cache-Control "public, immutable";
+}
+# API domain: proxy to the Express server and configure TLS at the proxy.
+# Set Express trust proxy only for the actual trusted proxy addresses.
+# Do not blindly trust arbitrary X-Forwarded-For headers.
